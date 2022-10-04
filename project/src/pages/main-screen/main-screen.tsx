@@ -2,11 +2,11 @@ import FilmCard from '../../components/film-card/film-card';
 
 type MainScreenProps = {
   name: string;
-  year: string;
+  released: number;
   genre: string;
 }
 
-function MainScreen({name, year, genre}: MainScreenProps): JSX.Element {
+function MainScreen({name, released, genre}: MainScreenProps): JSX.Element {
   const films = new Array(20).fill(0);
   return (
     <>
@@ -48,7 +48,7 @@ function MainScreen({name, year, genre}: MainScreenProps): JSX.Element {
               <h2 className="film-card__title">{name}</h2>
               <p className="film-card__meta">
                 <span className="film-card__genre">{genre}</span>
-                <span className="film-card__year">{year}</span>
+                <span className="film-card__year">{released}</span>
               </p>
 
               <div className="film-card__buttons">

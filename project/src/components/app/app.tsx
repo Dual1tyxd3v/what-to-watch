@@ -3,11 +3,11 @@ import MainScreen from '../../pages/main-screen/main-screen';
 type AppProps = {
   name: string;
   genre: string;
-  year: string;
+  released: number;
 }
 
-function App({name, genre, year}: AppProps): JSX.Element {
-  return <MainScreen name='The Grand Budapest Hotel' year='2014' genre='Drama'/>;
+function App({name, genre, released}: AppProps): JSX.Element {
+  return <MainScreen name={name} released={released} genre={genre}/>;
 }
 
 export default App;
