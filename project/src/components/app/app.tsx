@@ -13,16 +13,15 @@ type AppProps = {
   name: string;
   genre: string;
   released: number;
-  auth: string;
 }
 
-function App({name, genre, released, auth}: AppProps): JSX.Element {
+function App({name, genre, released}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Main} element={<MainScreen name={name} genre={genre} released={released}/>}/>
         <Route path={AppRoute.MyList} element={
-          <PrivateRoute auth={AuthStatus.Auth}>
+          <PrivateRoute auth={AuthStatus.NoAuth}>
             <MyListScreen />
           </PrivateRoute>
         }
