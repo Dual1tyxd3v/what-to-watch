@@ -33,8 +33,9 @@
     "parserOptions": {
       "project": [
         "tsconfig.json"
-      ]
-
+      ],
+      "tsconfigRootDir": "D:\\OpenServer\\domains\\htmlReact\\what-to-watch\\project",
+      "sourceType": "module"
     },
     "overrides": [
       {
