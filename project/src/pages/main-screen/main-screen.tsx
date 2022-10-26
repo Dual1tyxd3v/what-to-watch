@@ -1,15 +1,14 @@
-import FilmCard from '../../components/film-card/film-card';
+import FilmList from '../../components/film-list/film-list';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
+import { Films } from '../../types/film';
 
 type MainScreenProps = {
-  name: string;
-  released: number;
-  genre: string;
+  films: Films;
 }
 
-function MainScreen({name, released, genre}: MainScreenProps): JSX.Element {
-  const films = new Array(20).fill(0);
+function MainScreen({films}: MainScreenProps): JSX.Element {
+  const {name, genre, released} = films[0];
   return (
     <>
       <section className="film-card">
@@ -95,14 +94,7 @@ function MainScreen({name, released, genre}: MainScreenProps): JSX.Element {
             </li>
           </ul>
 
-          <div className="catalog__films-list">
-            {
-              films.map((film, i) => {
-                const key = `filmCardMain_${i}`;
-                return (<FilmCard key={key}/>);
-              })
-            }
-          </div>
+          <FilmList films={films} />
 
           <div className="catalog__more">
             <button className="catalog__button" type="button">Show more</button>

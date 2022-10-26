@@ -1,11 +1,3 @@
-import { Film } from './types/film';
-
-export const filmMain: Film = {
-  name: 'The Grand Budapest Hotel',
-  genre: 'Drama',
-  released: 2014
-};
-
 export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',

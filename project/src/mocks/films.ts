@@ -24,7 +24,7 @@ export const films: Films = [
     id: 2,
     name: 'Fantastic Beasts: The Crimes of Grindelwald',
     posterImage: 'img/the-grand-budapest-hotel-poster.jpg',
-    previewImage: 'fantastic-beasts-the-crimes-of-grindelwald.jpg',
+    previewImage: 'img/fantastic-beasts-the-crimes-of-grindelwald.jpg',
     backgroundImage: 'img/bg-the-grand-budapest-hotel.jpg',
     backgroundColor: '#fff',
     videoLink: 'https://download.blender.org/durian/trailer/sintel_trailer-480p.mp4',

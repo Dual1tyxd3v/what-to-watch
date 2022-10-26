@@ -7,19 +7,18 @@ import MainScreen from '../../pages/main-screen/main-screen';
 import MyListScreen from '../../pages/my-list-screen/my-list-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PlayerScreen from '../../pages/player-screen/player-screen';
+import { Films } from '../../types/film';
 import PrivateRoute from '../private-route/private-route';
 
 type AppProps = {
-  name: string;
-  genre: string;
-  released: number;
+  films: Films;
 }
 
-function App({name, genre, released}: AppProps): JSX.Element {
+function App({films}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path={AppRoute.Main} element={<MainScreen name={name} genre={genre} released={released}/>}/>
+        <Route path={AppRoute.Main} element={<MainScreen films={films}/>}/>
         <Route path={AppRoute.MyList} element={
           <PrivateRoute auth={AuthStatus.NoAuth}>
             <MyListScreen />
