@@ -12,3 +12,11 @@ export enum AppRoute {
   Player = '/player/:id',
   AddReview = '/films/:id/review'
 }
+
+export enum TextRating {
+  Bad = 'Bad',
+  Normal = 'Normal',
+  Good = 'Good',
+  VeryGood = 'Very Good',
+  Awesome = 'Awesome',
+}
