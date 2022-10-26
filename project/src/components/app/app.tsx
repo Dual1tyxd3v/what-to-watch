@@ -20,8 +20,8 @@ function App({films}: AppProps): JSX.Element {
       <Routes>
         <Route path={AppRoute.Main} element={<MainScreen films={films}/>}/>
         <Route path={AppRoute.MyList} element={
-          <PrivateRoute auth={AuthStatus.NoAuth}>
-            <MyListScreen />
+          <PrivateRoute auth={AuthStatus.Auth}>
+            <MyListScreen films={films}/>
           </PrivateRoute>
         }
         />

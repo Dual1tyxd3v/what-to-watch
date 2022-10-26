@@ -1,13 +1,22 @@
 import { Film } from '../../types/film';
+import {MouseEvent} from 'react';
 
 type FilmCardProps = {
   film: Film;
+  onActiveFilm: (id: number, type: string) => void;
 }
 
-function FilmCard({film}: FilmCardProps): JSX.Element {
-  const {previewImage, name} = film;
+function FilmCard({film, onActiveFilm}: FilmCardProps): JSX.Element {
+  function onMouseEventHandler(evt: MouseEvent<HTMLElement>): void {
+    onActiveFilm(id, evt.type);
+  }
+  const {previewImage, name, id} = film;
   return (
-    <article className="small-film-card catalog__films-card">
+    <article
+      className="small-film-card catalog__films-card"
+      onMouseEnter={onMouseEventHandler}
+      onMouseLeave={onMouseEventHandler}
+    >
       <div className="small-film-card__image">
         <img src={previewImage} alt={name} width="280" height="175" />
       </div>
