@@ -27,8 +27,8 @@ function App({films}: AppProps): JSX.Element {
         />
         <Route path={AppRoute.Login} element={<LoginScreen />} />
         <Route path={AppRoute.Films} element={<FilmScreen />} />
-        <Route path={AppRoute.Player} element={<PlayerScreen />} />
-        <Route path={AppRoute.AddReview} element={<AddReviewScreen />} />
+        <Route path={AppRoute.Player} element={<PlayerScreen films={films} />} />
+        <Route path={AppRoute.AddReview} element={<AddReviewScreen films={films} />} />
         <Route path='*' element={<NotFoundScreen />} />
       </Routes>
     </BrowserRouter>
