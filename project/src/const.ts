@@ -24,3 +24,5 @@ export enum TextRating {
 export const FilmNavLinks = ['Overview', 'Details', 'Reviews'];
 
 export const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];
+
+export const ratingValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];

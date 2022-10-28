@@ -15,7 +15,7 @@ function FilmCard({film, onActiveFilm}: FilmCardProps): JSX.Element {
   const navigate = useNavigate();
 
   function clickHandler(): void {
-    navigate(`films/${id}`);
+    navigate(`/films/${id}`);
   }
   return (
     <article
@@ -31,7 +31,7 @@ function FilmCard({film, onActiveFilm}: FilmCardProps): JSX.Element {
         />
       </div>
       <h3 className="small-film-card__title">
-        <Link className="small-film-card__link" to={`films/${id}`} title={`films/${id}`}>{name}</Link>
+        <Link className="small-film-card__link" to={`/films/${id}`} title={`films/${id}`}>{name}</Link>
       </h3>
     </article>
   );
