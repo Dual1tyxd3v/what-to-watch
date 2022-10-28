@@ -1,9 +1,13 @@
-/* eslint-disable react/no-unescaped-entities */
+import { MouseEvent, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
+import FilmScreenDetails from '../../components/film-screen-details/film-screen-details';
+import FilmScreenOverview from '../../components/film-screen-overview/film-screen-overview';
+import FilmScreenReviews from '../../components/film-screen-reviews/film-screen-reviews';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
+import { FilmNavLinks } from '../../const';
+import { comments } from '../../mocks/comments';
 import { Films } from '../../types/film';
-import { formatRating, formatRatingToText } from '../../utils';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 type FilmScreenProps = {
@@ -14,14 +18,33 @@ function FilmScreen({films}: FilmScreenProps): JSX.Element {
   const params = useParams();
   const paramsId = Number(params.id);
   const film = films.find((filmItem) => filmItem.id === paramsId);
-
+  const [navLink, setNavLink] = useState(FilmNavLinks[0]);
   if (!film) {
     return <NotFoundScreen />;
   }
-  const {backgroundImage, name, genre, released, posterImage,rating, scoresCount, director, description, starring} = film;
 
-  const formatedRating = formatRating(rating);
-  const textRating = formatRatingToText(rating);
+  let descriptionBlock = null;
+
+  switch(navLink) {
+    case FilmNavLinks[0]:
+      descriptionBlock = <FilmScreenOverview film={film} />;
+      break;
+    case FilmNavLinks[1]:
+      descriptionBlock = <FilmScreenDetails film={film} />;
+      break;
+    case FilmNavLinks[2]:
+      descriptionBlock = <FilmScreenReviews comments={comments} />;
+      break;
+    default:
+      descriptionBlock = null;
+  }
+
+  function clickHandler(evt: MouseEvent<HTMLElement>): void {
+    evt.preventDefault();
+    const currentLink = evt.target as HTMLElement;
+    setNavLink(currentLink.textContent as string);
+  }
+  const {backgroundImage, name, genre, released, posterImage} = film;
   return (
     <>
       <section className="film-card film-card--full">
@@ -74,41 +97,27 @@ function FilmScreen({films}: FilmScreenProps): JSX.Element {
 
             <div className="film-card__desc">
               <nav className="film-nav film-card__nav">
-                <ul className="film-nav__list">
-                  <li className="film-nav__item film-nav__item--active">
-                    <a href="#" className="film-nav__link">Overview</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Details</a>
-                  </li>
-                  <li className="film-nav__item">
-                    <a href="#" className="film-nav__link">Reviews</a>
-                  </li>
+                <ul className="film-nav__list" >
+                  {
+                    FilmNavLinks.map((navLinkItem, i) => {
+                      const key = `navlink_${i}`;
+                      return (
+                        <li key={key} className={`film-nav__item ${navLink === navLinkItem ? 'film-nav__item--active' : ''}`}>
+                          <Link
+                            to="/"
+                            className="film-nav__link"
+                            onClick={clickHandler}
+                          >{navLinkItem }
+                          </Link>
+                        </li>
+                      );
+                    })
+                  }
                 </ul>
               </nav>
-
-              <div className="film-rating">
-                <div className="film-rating__score">{formatedRating}</div>
-                <p className="film-rating__meta">
-                  <span className="film-rating__level">{textRating ? textRating : 'No Rate'}</span>
-                  <span className="film-rating__count">{scoresCount} ratings</span>
-                </p>
-              </div>
-
-              <div className="film-card__text">
-                <p>{description}</p>
-
-                <p className="film-card__director"><strong>Director: {director}</strong></p>
-
-                <p className="film-card__starring">
-                  <strong>Starring:
-                    {
-                      `${starring.join(', ')} `
-                    }
-                  and other
-                  </strong>
-                </p>
-              </div>
+              {
+                descriptionBlock
+              }
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { useParams } from 'react-router-dom';
+import { Link, useLocation, useParams } from 'react-router-dom';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import { Films } from '../../types/film';
@@ -10,6 +10,7 @@ type AddReviewScreenProps = {
 
 function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
   const params = useParams();
+  const currentLocation = useLocation();
   const paramsId = Number(params.id);
   const film = films.find((filmItem) => filmItem.id === paramsId);
   if (!film) {
@@ -33,7 +34,7 @@ function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
                 <a href="film-page.html" className="breadcrumbs__link">{film.name}</a>
               </li>
               <li className="breadcrumbs__item">
-                <a className="breadcrumbs__link">Add review</a>
+                <Link to={currentLocation.pathname} className="breadcrumbs__link">Add review</Link>
               </li>
             </ul>
           </nav>

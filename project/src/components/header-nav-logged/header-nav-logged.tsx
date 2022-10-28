@@ -1,3 +1,6 @@
+import { Link } from 'react-router-dom';
+import { AppRoute } from '../../const';
+
 function HeaderNavLogged(): JSX.Element {
   return (
     <ul className="user-block">
@@ -7,7 +10,7 @@ function HeaderNavLogged(): JSX.Element {
         </div>
       </li>
       <li className="user-block__item">
-        <a className="user-block__link">Sign out</a>
+        <Link className="user-block__link" to={AppRoute.Main}>Sign out</Link>
       </li>
     </ul>
   );

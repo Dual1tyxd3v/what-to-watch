@@ -8,6 +8,7 @@ type FilmListProps = {
 
 function FilmList({films}: FilmListProps): JSX.Element {
   const [activeFilm, setActiveFilm] = useState(films[0].id);
+
   const activeFilmHandler = useCallback((id: number, type: string) => {
     setActiveFilm(type === 'mouseenter' ? id : 0);
   }, []);
