@@ -7,12 +7,12 @@ type FilmListProps = {
 }
 
 function FilmList({films}: FilmListProps): JSX.Element {
-  const [activeFilm, setActiveFilm] = useState(films[0].id);
+  const [activeFilm, setActiveFilm] = useState(-1);
 
   const activeFilmHandler = useCallback((id: number, type: string) => {
-    setActiveFilm(type === 'mouseenter' ? id : 0);
+    setActiveFilm(type === 'mouseenter' ? id : -1);
   }, []);
-  console.log(activeFilm);
+
   return (
     <div className="catalog__films-list">
       {
@@ -23,6 +23,7 @@ function FilmList({films}: FilmListProps): JSX.Element {
               key={key}
               film={film}
               onActiveFilm={activeFilmHandler}
+              isPlaying={film.id === activeFilm}
             />);
         })
       }
