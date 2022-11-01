@@ -5,14 +5,11 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import Tabs from '../../components/tabs/tabs';
 import { MAX_LIKES_FILMS } from '../../const';
-import { Films } from '../../types/film';
+import { useAppSelector } from '../../hooks';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-type FilmScreenProps = {
-  films: Films;
-}
-
-function FilmScreen({films}: FilmScreenProps): JSX.Element {
+function FilmScreen(): JSX.Element {
+  const {films} = useAppSelector((state) => state);
   const params = useParams();
   const paramsId = Number(params.id);
   const film = films.find((filmItem) => filmItem.id === paramsId);

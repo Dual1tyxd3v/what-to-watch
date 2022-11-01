@@ -21,6 +21,19 @@ export enum TextRating {
   Awesome = 'Awesome',
 }
 
+export enum Genres {
+  AllGenres = 'All Genres',
+  Comedies = 'Comedies',
+  Crime = 'Crime',
+  Documentary = 'Documentary',
+  Dramas = 'Dramas',
+  Horror = 'Horror',
+  KidsAndFamily = 'Kids & Family',
+  Romance = 'Romance',
+  SciFi = 'Sci-Fi',
+  Thrillers = 'Thrillers'
+}
+
 export const FilmNavLinks = ['Overview', 'Details', 'Reviews'];
 
 export const Months = ['January', 'February', 'March', 'April', 'May', 'June', 'Jule', 'August', 'September', 'October', 'November', 'December'];

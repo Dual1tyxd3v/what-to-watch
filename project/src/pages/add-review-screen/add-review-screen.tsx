@@ -2,14 +2,11 @@ import { Link, useLocation, useParams } from 'react-router-dom';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
-import { Films } from '../../types/film';
+import { useAppSelector } from '../../hooks';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
-type AddReviewScreenProps = {
-  films: Films;
-}
-
-function AddReviewScreen({films}: AddReviewScreenProps): JSX.Element {
+function AddReviewScreen(): JSX.Element {
+  const {films} = useAppSelector((state) => state);
   const params = useParams();
   const currentLocation = useLocation();
   const paramsId = Number(params.id);
