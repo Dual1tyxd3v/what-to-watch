@@ -1,19 +1,32 @@
+import { useCallback, useEffect, useState } from 'react';
+import ButtonShowMore from '../../components/button-show-more/button-show-more';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
+import { DISPLAY_FILMS_STEP } from '../../const';
 import { useAppSelector } from '../../hooks';
 
 function MainScreen(): JSX.Element {
   const {selectedGenre, films} = useAppSelector((state) => state);
   const {name, genre, released} = films[0];
+  const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
 
   const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
 
   const filteredFilms = selectedGenre === 'All Genres'
     ? films
     : films.filter((film) => selectedGenre === film.genre);
+
+  const buttonClickHandler = useCallback(() => {
+    setDisplayFilmsCounter((prev) => prev + DISPLAY_FILMS_STEP);
+  }, []);
+
+  useEffect(() => {
+    setDisplayFilmsCounter(DISPLAY_FILMS_STEP);
+  }, [selectedGenre]);
+
   return (
     <>
       <section className="film-card">
@@ -68,11 +81,12 @@ function MainScreen(): JSX.Element {
 
           <GenreList genres={genres} />
 
-          <FilmList films={filteredFilms} />
-
-          <div className="catalog__more">
-            <button className="catalog__button" type="button">Show more</button>
-          </div>
+          <FilmList films={filteredFilms} showedFilmsCounter={displayFilmsCounter}/>
+          {
+            displayFilmsCounter >= filteredFilms.length
+              ? null
+              : <ButtonShowMore buttonClickHandler={buttonClickHandler} />
+          }
         </section>
 
         <Footer />

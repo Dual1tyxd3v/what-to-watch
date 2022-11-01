@@ -4,10 +4,13 @@ import FilmCard from '../film-card/film-card';
 
 type FilmListProps = {
   films: Films;
+  showedFilmsCounter?: number;
 }
 
-function FilmList({films}: FilmListProps): JSX.Element {
+function FilmList({films, showedFilmsCounter}: FilmListProps): JSX.Element {
   const [activeFilm, setActiveFilm] = useState(-1);
+
+  const filmsToShow = showedFilmsCounter ? films.slice(0, showedFilmsCounter) : films;
 
   const activeFilmHandler = useCallback((id: number, type: string) => {
     setActiveFilm(type === 'mouseenter' ? id : -1);
@@ -16,7 +19,7 @@ function FilmList({films}: FilmListProps): JSX.Element {
   return (
     <div className="catalog__films-list">
       {
-        films.map((film, i) => {
+        filmsToShow.map((film, i) => {
           const key = `filmCardMain_${i}`;
           return (
             <FilmCard

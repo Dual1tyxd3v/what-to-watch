@@ -21,18 +21,7 @@ export enum TextRating {
   Awesome = 'Awesome',
 }
 
-export enum Genres {
-  AllGenres = 'All Genres',
-  Comedies = 'Comedies',
-  Crime = 'Crime',
-  Documentary = 'Documentary',
-  Dramas = 'Dramas',
-  Horror = 'Horror',
-  KidsAndFamily = 'Kids & Family',
-  Romance = 'Romance',
-  SciFi = 'Sci-Fi',
-  Thrillers = 'Thrillers'
-}
+export const DISPLAY_FILMS_STEP = 8;
 
 export const FilmNavLinks = ['Overview', 'Details', 'Reviews'];
 
