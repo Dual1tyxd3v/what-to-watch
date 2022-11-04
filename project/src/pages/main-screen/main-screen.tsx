@@ -23,7 +23,7 @@ function MainScreen(): JSX.Element {
   if (isDataLoaded) {
     return <LoadingScreen />;
   }
-  const {name, genre, released} = films[0];
+  const {name, genre, released, backgroundImage, posterImage} = films[0];
 
   const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
 
@@ -34,7 +34,7 @@ function MainScreen(): JSX.Element {
     <>
       <section className="film-card">
         <div className="film-card__bg">
-          <img src="img/bg-the-grand-budapest-hotel.jpg" alt="The Grand Budapest Hotel" />
+          <img src={backgroundImage} alt={name} />
         </div>
 
         <h1 className="visually-hidden">WTW</h1>
@@ -48,7 +48,7 @@ function MainScreen(): JSX.Element {
         <div className="film-card__wrap">
           <div className="film-card__info">
             <div className="film-card__poster">
-              <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
+              <img src={posterImage} alt={name} width="218" height="327" />
             </div>
 
             <div className="film-card__desc">
