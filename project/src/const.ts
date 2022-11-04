@@ -21,6 +21,14 @@ export enum TextRating {
   Awesome = 'Awesome',
 }
 
+export enum APIRoute {
+  LogIn = '/login',
+  LogOut = '/logout',
+  Films = '/films',
+  Comments = '/comments',
+  Favorites = '/favorite'
+}
+
 export const DISPLAY_FILMS_STEP = 8;
 
 export const FilmNavLinks = ['Overview', 'Details', 'Reviews'];

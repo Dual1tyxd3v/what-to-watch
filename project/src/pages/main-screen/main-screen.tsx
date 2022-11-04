@@ -7,18 +7,11 @@ import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import { DISPLAY_FILMS_STEP } from '../../const';
 import { useAppSelector } from '../../hooks';
+import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
-  const {selectedGenre, films} = useAppSelector((state) => state);
-  const {name, genre, released} = films[0];
+  const {selectedGenre, films, isDataLoaded} = useAppSelector((state) => state);
   const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
-
-  const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
-
-  const filteredFilms = selectedGenre === 'All Genres'
-    ? films
-    : films.filter((film) => selectedGenre === film.genre);
-
   const buttonClickHandler = useCallback(() => {
     setDisplayFilmsCounter((prev) => prev + DISPLAY_FILMS_STEP);
   }, []);
@@ -27,6 +20,16 @@ function MainScreen(): JSX.Element {
     setDisplayFilmsCounter(DISPLAY_FILMS_STEP);
   }, [selectedGenre]);
 
+  if (isDataLoaded) {
+    return <LoadingScreen />;
+  }
+  const {name, genre, released} = films[0];
+
+  const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
+
+  const filteredFilms = selectedGenre === 'All Genres'
+    ? films
+    : films.filter((film) => selectedGenre === film.genre);
   return (
     <>
       <section className="film-card">
