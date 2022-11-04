@@ -1,5 +1,5 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
-import { AppRoute, AuthStatus } from '../../const';
+import { AppRoute } from '../../const';
 import AddReviewScreen from '../../pages/add-review-screen/add-review-screen';
 import FilmScreen from '../../pages/film-screen/film-screen';
 import LoginScreen from '../../pages/login-screen/login-screen';
@@ -15,7 +15,7 @@ function App(): JSX.Element {
       <Routes>
         <Route path={AppRoute.Main} element={<MainScreen />}/>
         <Route path={AppRoute.MyList} element={
-          <PrivateRoute auth={AuthStatus.Auth}>
+          <PrivateRoute>
             <MyListScreen />
           </PrivateRoute>
         }
