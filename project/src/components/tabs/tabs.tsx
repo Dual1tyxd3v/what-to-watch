@@ -1,7 +1,7 @@
 import { useState, MouseEvent } from 'react';
 import { Link } from 'react-router-dom';
 import { FilmNavLinks } from '../../const';
-import { comments } from '../../mocks/comments';
+import { Comments } from '../../types/comments';
 import { Film } from '../../types/film';
 import FilmScreenDetails from '../film-screen-details/film-screen-details';
 import FilmScreenOverview from '../film-screen-overview/film-screen-overview';
@@ -9,9 +9,10 @@ import FilmScreenReviews from '../film-screen-reviews/film-screen-reviews';
 
 type TabsProps = {
   film: Film;
+  comments: Comments;
 }
 
-function Tabs({film}: TabsProps): JSX.Element {
+function Tabs({film, comments}: TabsProps): JSX.Element {
   let descriptionBlock = null;
   const [navLink, setNavLink] = useState(FilmNavLinks[0]);
 

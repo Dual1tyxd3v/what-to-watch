@@ -1,24 +1,43 @@
+import { useLayoutEffect } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import Tabs from '../../components/tabs/tabs';
-import { MAX_LIKES_FILMS } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { AuthStatus, MAX_LIKES_FILMS } from '../../const';
+import { useAppDiapatch, useAppSelector } from '../../hooks';
+import { fetchCommentsAction, fetchFilmAction, fetchSimilarFilmsAction } from '../../services/api-actions';
+import { setFilm } from '../../store/action';
+import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function FilmScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {film, isDataLoaded, similarFilms, comments, authStatus} = useAppSelector((state) => state);
+  const dispatch = useAppDiapatch();
+
   const params = useParams();
-  const paramsId = Number(params.id);
-  const film = films.find((filmItem) => filmItem.id === paramsId);
+  const paramsId = params.id;
+
+  useLayoutEffect(() => {
+    if (paramsId) {
+      dispatch(fetchFilmAction(paramsId));
+      dispatch(fetchSimilarFilmsAction(paramsId));
+      dispatch(fetchCommentsAction(paramsId));
+    }
+    return () => {
+      dispatch(setFilm(null));
+    };
+  }, [dispatch, paramsId]);
+
+  if (!film && isDataLoaded) {
+    return <LoadingScreen />;
+  }
   if (!film) {
     return <NotFoundScreen />;
   }
-
+  const similarFilmsToView = similarFilms.filter((filmItem) => filmItem.id !== film.id);
   const {backgroundImage, name, genre, released, posterImage} = film;
-  const likesFilms = films.filter((filmItem, i, result) => filmItem !== film && filmItem.genre === film.genre );
   return (
     <>
       <section className="film-card film-card--full">
@@ -57,7 +76,11 @@ function FilmScreen(): JSX.Element {
                   <span>My list</span>
                   <span className="film-card__count">9</span>
                 </button>
-                <Link to='review' className="btn film-card__button">Add review</Link>
+                {
+                  authStatus === AuthStatus.Auth
+                    ? <Link to='review' className="btn film-card__button">Add review</Link>
+                    : null
+                }
               </div>
             </div>
           </div>
@@ -68,7 +91,7 @@ function FilmScreen(): JSX.Element {
             <div className="film-card__poster film-card__poster--big">
               <img src={posterImage} alt={name} width="218" height="327" />
             </div>
-            <Tabs film={film}/>
+            <Tabs comments={comments} film={film}/>
           </div>
         </div>
       </section>
@@ -77,7 +100,8 @@ function FilmScreen(): JSX.Element {
         <section className="catalog catalog--like-this">
           <h2 className="catalog__title">More like this</h2>
 
-          <FilmList films={likesFilms.slice(0, MAX_LIKES_FILMS)} />
+          <FilmList films={similarFilmsToView} showedFilmsCounter={MAX_LIKES_FILMS} />
+
         </section>
 
         <Footer />

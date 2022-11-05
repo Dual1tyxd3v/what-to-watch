@@ -1,3 +1,4 @@
+import { Fragment } from 'react';
 import { Film } from '../../types/film';
 import { formatRunTime } from '../../utils';
 
@@ -8,6 +9,7 @@ type FilmScreenDetailsProps = {
 function FilmScreenDetails({film}: FilmScreenDetailsProps): JSX.Element {
   const {director, starring, genre, released, runTime} = film;
   const formatedTime = formatRunTime(runTime);
+
   return(
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -19,13 +21,14 @@ function FilmScreenDetails({film}: FilmScreenDetailsProps): JSX.Element {
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
             {
-              starring.map((actor, i) =>
-                (
-                  <>
-                    {actor}{i === starring.length - 1 ? '' : ','} <br />
-                  </>
-                )
-              )
+              starring.map((actor, i) => {
+                const key = `actor_${i}`;
+                return (
+                  <Fragment key={key}>
+                    {actor}{i === starring.length - 1 ? '' : ','}<br />
+                  </Fragment>
+                );
+              })
             }
           </span>
         </p>

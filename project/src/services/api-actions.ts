@@ -1,9 +1,10 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthStatus } from '../const';
-import { changeIsDataLoading, loadFilms, setAuthStatus, setUserInfo } from '../store/action';
+import { changeIsDataLoading, setAuthStatus, setComments, setFilm, setFilms, setSimilarFilms, setUserInfo } from '../store/action';
 import { AuthData } from '../types/auth-data';
-import { Films } from '../types/film';
+import { Comments } from '../types/comments';
+import { Film, Films } from '../types/film';
 import { AppDispatch, State } from '../types/store';
 import { UserData } from '../types/user-data';
 import { dropToken, saveToken } from './token';
@@ -15,8 +16,40 @@ export const fetchFilmsAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     dispatch(changeIsDataLoading(true));
     const {data} = await api.get<Films>(APIRoute.Films);
-    dispatch(loadFilms(data));
+    dispatch(setFilms(data));
     dispatch(changeIsDataLoading(false));
+  },
+);
+
+export const fetchFilmAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch; state: State; extra: AxiosInstance;
+}>(
+  'DATA/fetchFilm',
+  async (id, {dispatch, extra: api}) => {
+    dispatch(changeIsDataLoading(true));
+    const {data} = await api.get<Film>(`${APIRoute.Films}/${id}`);
+    dispatch(setFilm(data));
+    dispatch(changeIsDataLoading(false));
+  },
+);
+
+export const fetchSimilarFilmsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch; state: State; extra: AxiosInstance;
+}>(
+  'DATA/fetchSimilarFilms',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Films>(`${APIRoute.Films}/${id}/similar`);
+    dispatch(setSimilarFilms(data));
+  },
+);
+
+export const fetchCommentsAction = createAsyncThunk<void, string, {
+  dispatch: AppDispatch; state: State; extra: AxiosInstance;
+}>(
+  'DATA/fetchComments',
+  async (id, {dispatch, extra: api}) => {
+    const {data} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
+    dispatch(setComments(data));
   },
 );
 

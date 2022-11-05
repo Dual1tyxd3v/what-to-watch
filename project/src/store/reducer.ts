@@ -1,8 +1,9 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { AuthStatus } from '../const';
-import { Films } from '../types/film';
+import { Comments } from '../types/comments';
+import { Film, Films } from '../types/film';
 import { UserData } from '../types/user-data';
-import { changeGenre, changeIsDataLoading, loadFilms, setAuthStatus, setUserInfo } from './action';
+import { changeGenre, changeIsDataLoading, setFilms, setAuthStatus, setUserInfo, setFilm, setSimilarFilms, setComments } from './action';
 
 type InitState = {
   selectedGenre: string;
@@ -10,6 +11,9 @@ type InitState = {
   authStatus: AuthStatus;
   isDataLoaded: boolean;
   userInfo: UserData | null;
+  film: Film | null;
+  similarFilms: Films;
+  comments: Comments;
 }
 
 const initState: InitState = {
@@ -17,7 +21,10 @@ const initState: InitState = {
   films: [],
   authStatus: AuthStatus.Unknown,
   isDataLoaded: false,
-  userInfo: null
+  userInfo: null,
+  film: null,
+  similarFilms: [],
+  comments: []
 };
 
 const reducer = createReducer(initState, (builder) => {
@@ -25,7 +32,7 @@ const reducer = createReducer(initState, (builder) => {
     .addCase(changeGenre, (state, action) => {
       state.selectedGenre = action.payload.genre;
     })
-    .addCase(loadFilms, (state, action) => {
+    .addCase(setFilms, (state, action) => {
       state.films = action.payload;
     })
     .addCase(setAuthStatus, (state, action) => {
@@ -36,6 +43,15 @@ const reducer = createReducer(initState, (builder) => {
     })
     .addCase(setUserInfo, (state, action) => {
       state.userInfo = action.payload;
+    })
+    .addCase(setFilm, (state, action) => {
+      state.film = action.payload;
+    })
+    .addCase(setSimilarFilms, (state, action) => {
+      state.similarFilms = action.payload;
+    })
+    .addCase(setComments, (state, action) => {
+      state.comments = action.payload;
     });
 });
 
