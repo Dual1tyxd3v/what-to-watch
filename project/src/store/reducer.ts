@@ -3,7 +3,7 @@ import { AuthStatus } from '../const';
 import { Comments } from '../types/comments';
 import { Film, Films } from '../types/film';
 import { UserData } from '../types/user-data';
-import { changeGenre, changeIsDataLoading, setFilms, setAuthStatus, setUserInfo, setFilm, setSimilarFilms, setComments } from './action';
+import { changeGenre, changeIsDataLoading, setFilms, setAuthStatus, setUserInfo, setFilm, setSimilarFilms, setComments, setCommentPostLoading } from './action';
 
 type InitState = {
   selectedGenre: string;
@@ -14,6 +14,7 @@ type InitState = {
   film: Film | null;
   similarFilms: Films;
   comments: Comments;
+  isPostLoading: boolean;
 }
 
 const initState: InitState = {
@@ -24,7 +25,8 @@ const initState: InitState = {
   userInfo: null,
   film: null,
   similarFilms: [],
-  comments: []
+  comments: [],
+  isPostLoading: false
 };
 
 const reducer = createReducer(initState, (builder) => {
@@ -52,6 +54,9 @@ const reducer = createReducer(initState, (builder) => {
     })
     .addCase(setComments, (state, action) => {
       state.comments = action.payload;
+    })
+    .addCase(setCommentPostLoading, (state, action) => {
+      state.isPostLoading = action.payload;
     });
 });
 
