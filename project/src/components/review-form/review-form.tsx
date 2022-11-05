@@ -1,5 +1,5 @@
 import { useState, ChangeEvent, useCallback, FormEvent } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { ratingValues } from '../../const';
 import { useAppDiapatch } from '../../hooks';
 import { postCommentAction } from '../../services/api-actions';
@@ -10,6 +10,7 @@ function ReviewForm(): JSX.Element {
   const dispatch = useAppDiapatch();
   const params = useParams();
   const paramsId = params.id;
+  const navigate = useNavigate();
 
   function changeTextHandler(evt: ChangeEvent<HTMLTextAreaElement>) {
     setFormData({...formData, comment: evt.target.value});
@@ -26,6 +27,7 @@ function ReviewForm(): JSX.Element {
         rating: formData.rate,
         id: paramsId
       }));
+      navigate(`/films/${paramsId}`);
     }
   }
   return (

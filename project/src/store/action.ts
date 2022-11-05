@@ -21,3 +21,5 @@ export const setSimilarFilms = createAction<Films>('data/setSimilarFilms');
 export const setComments = createAction<Comments>('data/setComments');
 
 export const setCommentPostLoading = createAction<boolean>('data/setCommentPostLoading');
+
+export const setError = createAction<string | null>('app/setError');

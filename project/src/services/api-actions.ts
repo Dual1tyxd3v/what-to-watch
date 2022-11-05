@@ -1,7 +1,8 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
-import { APIRoute, AuthStatus } from '../const';
-import { changeIsDataLoading, setAuthStatus, setCommentPostLoading, setComments, setFilm, setFilms, setSimilarFilms, setUserInfo } from '../store/action';
+import { APIRoute, AuthStatus, SHOW_ERROR_TIMEOUT } from '../const';
+import { store } from '../store';
+import { changeIsDataLoading, setAuthStatus, setCommentPostLoading, setComments, setError, setFilm, setFilms, setSimilarFilms, setUserInfo } from '../store/action';
 import { AuthData } from '../types/auth-data';
 import { CommentData } from '../types/comment-data';
 import { Comments } from '../types/comments';
@@ -68,6 +69,17 @@ export const postCommentAction = createAsyncThunk<void, CommentData, {
     catch {
       dispatch(setCommentPostLoading(false));
     }
+  }
+);
+
+export const clearErrorMessageAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch; state: State; extra: AxiosInstance;
+}>(
+  'APP/clearErrorMessage',
+  () => {
+    setTimeout(() => {
+      store.dispatch(setError(null));
+    }, SHOW_ERROR_TIMEOUT);
   }
 );
 

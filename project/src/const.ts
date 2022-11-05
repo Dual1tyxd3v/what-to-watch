@@ -40,3 +40,5 @@ export const ratingValues = [10, 9, 8, 7, 6, 5, 4, 3, 2, 1];
 export const MAX_LIKES_FILMS = 4;
 
 export const DELAY_TO_PREVIEW = 1000;
+
+export const SHOW_ERROR_TIMEOUT = 3000;
