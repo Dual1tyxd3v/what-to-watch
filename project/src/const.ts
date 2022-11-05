@@ -26,7 +26,8 @@ export enum APIRoute {
   LogOut = '/logout',
   Films = '/films',
   Comments = '/comments',
-  Favorites = '/favorite'
+  Favorites = '/favorite',
+  Promo = '/promo'
 }
 
 export const DISPLAY_FILMS_STEP = 8;

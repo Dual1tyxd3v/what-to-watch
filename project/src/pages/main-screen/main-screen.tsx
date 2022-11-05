@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
 import ButtonShowMore from '../../components/button-show-more/button-show-more';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
@@ -6,24 +6,31 @@ import GenreList from '../../components/genre-list/genre-list';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import { AuthStatus, DISPLAY_FILMS_STEP } from '../../const';
-import { useAppSelector } from '../../hooks';
+import { useAppDiapatch, useAppSelector } from '../../hooks';
+import { fetchPromoFilmAction } from '../../services/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
-  const {selectedGenre, films, isDataLoaded, authStatus} = useAppSelector((state) => state);
+  const {selectedGenre, films, isDataLoaded, authStatus, promoFilm} = useAppSelector((state) => state);
   const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
+  const dispatch = useAppDiapatch();
   const buttonClickHandler = useCallback(() => {
     setDisplayFilmsCounter((prev) => prev + DISPLAY_FILMS_STEP);
   }, []);
+
+  useLayoutEffect(() => {
+    dispatch(fetchPromoFilmAction());
+  }, [dispatch]);
 
   useEffect(() => {
     setDisplayFilmsCounter(DISPLAY_FILMS_STEP);
   }, [selectedGenre]);
 
-  if (isDataLoaded) {
+  if (isDataLoaded || !promoFilm) {
     return <LoadingScreen />;
   }
-  const {name, genre, released, backgroundImage, posterImage} = films[0];
+
+  const {name, genre, released, backgroundImage, posterImage} = promoFilm;
 
   const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
 

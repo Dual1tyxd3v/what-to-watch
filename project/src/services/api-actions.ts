@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthStatus, SHOW_ERROR_TIMEOUT } from '../const';
 import { store } from '../store';
-import { changeIsDataLoading, setAuthStatus, setCommentPostLoading, setComments, setError, setFilm, setFilms, setSimilarFilms, setUserInfo } from '../store/action';
+import { changeIsDataLoading, setAuthStatus, setCommentPostLoading, setComments, setError, setFilm, setFilms, setPromoFilm, setSimilarFilms, setUserInfo } from '../store/action';
 import { AuthData } from '../types/auth-data';
 import { CommentData } from '../types/comment-data';
 import { Comments } from '../types/comments';
@@ -42,6 +42,18 @@ export const fetchSimilarFilmsAction = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Films>(`${APIRoute.Films}/${id}/similar`);
     dispatch(setSimilarFilms(data));
+  },
+);
+
+export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
+  dispatch: AppDispatch; state: State; extra: AxiosInstance;
+}>(
+  'DATA/fetchSimilarFilms',
+  async (_arg, {dispatch, extra: api}) => {
+    dispatch(changeIsDataLoading(true));
+    const {data} = await api.get<Film>(APIRoute.Promo);
+    dispatch(setPromoFilm(data));
+    dispatch(changeIsDataLoading(false));
   },
 );
 
