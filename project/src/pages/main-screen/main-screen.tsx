@@ -11,7 +11,7 @@ import { fetchPromoFilmAction } from '../../services/api-actions';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
-  const {selectedGenre, films, isDataLoaded, authStatus, promoFilm} = useAppSelector((state) => state);
+  const {selectedGenre, films, isDataLoaded, authStatus, promoFilm, favoriteFilms} = useAppSelector((state) => state);
   const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
   const dispatch = useAppDiapatch();
   const buttonClickHandler = useCallback(() => {
@@ -80,7 +80,7 @@ function MainScreen(): JSX.Element {
                         <use xlinkHref="#add"></use>
                       </svg>
                       <span>My list</span>
-                      <span className="film-card__count">9</span>
+                      <span className="film-card__count">{favoriteFilms.length}</span>
                     </button>
                     : null
                 }

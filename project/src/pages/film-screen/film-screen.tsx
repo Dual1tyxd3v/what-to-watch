@@ -13,7 +13,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function FilmScreen(): JSX.Element {
-  const {film, isDataLoaded, similarFilms, comments, authStatus} = useAppSelector((state) => state);
+  const {film, isDataLoaded, similarFilms, comments, authStatus, favoriteFilms} = useAppSelector((state) => state);
   const dispatch = useAppDiapatch();
 
   const params = useParams();
@@ -78,7 +78,7 @@ function FilmScreen(): JSX.Element {
                           <use xlinkHref="#add"></use>
                         </svg>
                         <span>My list</span>
-                        <span className="film-card__count">9</span>
+                        <span className="film-card__count">{favoriteFilms.length}</span>
                       </button>
                       <Link to='review' className="btn film-card__button">Add review</Link>
                     </>

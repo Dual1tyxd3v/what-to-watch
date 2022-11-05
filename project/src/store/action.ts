@@ -27,3 +27,5 @@ export const setError = createAction<string | null>('app/setError');
 export const setPromoFilm = createAction<Film>('data/setPromoFilm');
 
 export const redirectToRoute = createAction<string>('app/redirectToRoute');
+
+export const setFavoriteFilms = createAction<Films>('data/setFavoriteFilms');
