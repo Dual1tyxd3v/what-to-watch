@@ -5,12 +5,12 @@ import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
-import { DISPLAY_FILMS_STEP } from '../../const';
+import { AuthStatus, DISPLAY_FILMS_STEP } from '../../const';
 import { useAppSelector } from '../../hooks';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
-  const {selectedGenre, films, isDataLoaded} = useAppSelector((state) => state);
+  const {selectedGenre, films, isDataLoaded, authStatus} = useAppSelector((state) => state);
   const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
   const buttonClickHandler = useCallback(() => {
     setDisplayFilmsCounter((prev) => prev + DISPLAY_FILMS_STEP);
@@ -65,13 +65,18 @@ function MainScreen(): JSX.Element {
                   </svg>
                   <span>Play</span>
                 </button>
-                <button className="btn btn--list film-card__button" type="button">
-                  <svg viewBox="0 0 19 20" width="19" height="20">
-                    <use xlinkHref="#add"></use>
-                  </svg>
-                  <span>My list</span>
-                  <span className="film-card__count">9</span>
-                </button>
+                {
+                  authStatus === AuthStatus.Auth
+                    ?
+                    <button className="btn btn--list film-card__button" type="button">
+                      <svg viewBox="0 0 19 20" width="19" height="20">
+                        <use xlinkHref="#add"></use>
+                      </svg>
+                      <span>My list</span>
+                      <span className="film-card__count">9</span>
+                    </button>
+                    : null
+                }
               </div>
             </div>
           </div>
