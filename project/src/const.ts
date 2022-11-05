@@ -43,3 +43,6 @@ export const MAX_LIKES_FILMS = 4;
 export const DELAY_TO_PREVIEW = 1000;
 
 export const SHOW_ERROR_TIMEOUT = 3000;
+
+export const MIN_COMMENT_LENGTH = 50;
+export const MAX_COMMENT_LENGTH = 400;

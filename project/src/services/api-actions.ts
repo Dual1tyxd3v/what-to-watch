@@ -2,7 +2,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { AxiosInstance } from 'axios';
 import { APIRoute, AuthStatus, SHOW_ERROR_TIMEOUT } from '../const';
 import { store } from '../store';
-import { changeIsDataLoading, setAuthStatus, setCommentPostLoading, setComments, setError, setFilm, setFilms, setPromoFilm, setSimilarFilms, setUserInfo } from '../store/action';
+import { changeIsDataLoading, redirectToRoute, setAuthStatus, setCommentPostLoading, setComments, setError, setFilm, setFilms, setPromoFilm, setSimilarFilms, setUserInfo } from '../store/action';
 import { AuthData } from '../types/auth-data';
 import { CommentData } from '../types/comment-data';
 import { Comments } from '../types/comments';
@@ -77,6 +77,7 @@ export const postCommentAction = createAsyncThunk<void, CommentData, {
       const {data} = await api.post<Comments>(`${APIRoute.Comments}/${id}`, {comment, rating});
       dispatch(setComments(data));
       dispatch(setCommentPostLoading(false));
+      dispatch(redirectToRoute(`films/${id}`));
     }
     catch {
       dispatch(setCommentPostLoading(false));

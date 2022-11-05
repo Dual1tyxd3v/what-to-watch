@@ -6,11 +6,10 @@ type FilmScreenReviewsProps = {
 }
 
 function FilmScreenReviews({comments}: FilmScreenReviewsProps): JSX.Element {
-  const comments2 = comments.slice(0, Math.floor(Math.random() * comments.length) + 1);
   const rightColComments: Comments = [];
   const leftColComments: Comments = [];
 
-  comments2.forEach((comment, i) => {
+  comments.forEach((comment, i) => {
     if (i % 2 === 0) {
       leftColComments.push(comment);
     } else {

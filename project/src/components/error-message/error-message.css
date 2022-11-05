@@ -1,6 +1,6 @@
 .error-message {
   position: absolute;
-  height: 50px;
+  min-height: 50px;
   z-index: 9;
   background-color: #170202;
   font-size: 30px;
@@ -11,5 +11,5 @@
   left: 50%;
   transform: translateX(-50%);
   border: 2px solid red;
-  border-radius: 115px;
+  border-radius: 15px;
 }

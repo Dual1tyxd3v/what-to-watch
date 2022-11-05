@@ -1,16 +1,16 @@
 import { useState, ChangeEvent, useCallback, FormEvent } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
-import { ratingValues } from '../../const';
-import { useAppDiapatch } from '../../hooks';
+import { useParams } from 'react-router-dom';
+import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, ratingValues } from '../../const';
+import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { postCommentAction } from '../../services/api-actions';
 import Star from '../star/star';
 
 function ReviewForm(): JSX.Element {
   const [formData, setFormData] = useState({rate: 0, comment: ''});
+  const {isPostLoading} = useAppSelector((state) => state);
   const dispatch = useAppDiapatch();
   const params = useParams();
   const paramsId = params.id;
-  const navigate = useNavigate();
 
   function changeTextHandler(evt: ChangeEvent<HTMLTextAreaElement>) {
     setFormData({...formData, comment: evt.target.value});
@@ -21,13 +21,12 @@ function ReviewForm(): JSX.Element {
 
   function submitHandler(evt: FormEvent) {
     evt.preventDefault();
-    if (formData.rate > 0 && formData.comment.length > 0 && paramsId) {
+    if (paramsId) {
       dispatch(postCommentAction({
         comment: formData.comment,
         rating: formData.rate,
         id: paramsId
       }));
-      navigate(`/films/${paramsId}`);
     }
   }
   return (
@@ -46,10 +45,16 @@ function ReviewForm(): JSX.Element {
           name="review-text" id="review-text"
           placeholder="Review text"
           onChange={changeTextHandler}
+          disabled={isPostLoading}
         >
         </textarea>
         <div className="add-review__submit">
-          <button className="add-review__btn" type="submit">Post</button>
+          <button
+            className="add-review__btn"
+            type="submit"
+            disabled={isPostLoading || formData.rate === 0 || formData.comment.length < MIN_COMMENT_LENGTH || formData.comment.length > MAX_COMMENT_LENGTH}
+          >Post
+          </button>
         </div>
 
       </div>

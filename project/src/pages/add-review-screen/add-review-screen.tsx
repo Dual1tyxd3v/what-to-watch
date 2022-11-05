@@ -1,14 +1,20 @@
-import { Link, useLocation, useParams } from 'react-router-dom';
+import { Link, Navigate, useLocation, useParams } from 'react-router-dom';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
+import { AppRoute, AuthStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function AddReviewScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {films, authStatus} = useAppSelector((state) => state);
   const params = useParams();
   const currentLocation = useLocation();
+
+  if (authStatus !== AuthStatus.Auth) {
+    return <Navigate to={AppRoute.Login} />;
+  }
+
   const paramsId = Number(params.id);
   const film = films.find((filmItem) => filmItem.id === paramsId);
   if (!film) {

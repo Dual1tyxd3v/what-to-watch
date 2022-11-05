@@ -25,3 +25,5 @@ export const setCommentPostLoading = createAction<boolean>('data/setCommentPostL
 export const setError = createAction<string | null>('app/setError');
 
 export const setPromoFilm = createAction<Film>('data/setPromoFilm');
+
+export const redirectToRoute = createAction<string>('app/redirectToRoute');
