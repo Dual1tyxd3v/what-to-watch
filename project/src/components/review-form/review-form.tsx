@@ -7,7 +7,7 @@ import Star from '../star/star';
 
 function ReviewForm(): JSX.Element {
   const [formData, setFormData] = useState({rate: 0, comment: ''});
-  const {isPostLoading} = useAppSelector((state) => state);
+  const {isPostLoading} = useAppSelector((state) => state.All);
   const dispatch = useAppDiapatch();
   const params = useParams();
   const paramsId = params.id;

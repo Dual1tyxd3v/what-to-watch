@@ -8,10 +8,12 @@ import Logo from '../../components/logo/logo';
 import { AuthStatus, DISPLAY_FILMS_STEP } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { fetchPromoFilmAction } from '../../services/api-actions';
+import { getAuthStatus } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 function MainScreen(): JSX.Element {
-  const {selectedGenre, films, isDataLoaded, authStatus, promoFilm, favoriteFilms} = useAppSelector((state) => state);
+  const {selectedGenre, films, isDataLoaded, promoFilm, favoriteFilms} = useAppSelector((state) => state.All);
+  const authStatus = useAppSelector(getAuthStatus);
   const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
   const dispatch = useAppDiapatch();
   const buttonClickHandler = useCallback(() => {

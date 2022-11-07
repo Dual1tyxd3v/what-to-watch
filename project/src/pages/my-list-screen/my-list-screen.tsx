@@ -10,7 +10,7 @@ import LoadingScreen from '../loading-screen/loading-screen';
 store.dispatch(fetchFavoriteFilmsAction());
 
 function MyListScreen(): JSX.Element {
-  const {favoriteFilms, isDataLoaded} = useAppSelector((state) => state);
+  const {favoriteFilms, isDataLoaded} = useAppSelector((state) => state.All);
 
   if (isDataLoaded) {
     return <LoadingScreen />;

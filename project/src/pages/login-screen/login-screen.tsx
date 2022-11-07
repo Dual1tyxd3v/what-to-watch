@@ -5,9 +5,10 @@ import Logo from '../../components/logo/logo';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { loginAction } from '../../services/api-actions';
+import { getAuthStatus } from '../../store/user-process/selectors';
 
 function LoginScreen(): JSX.Element {
-  const {authStatus} = useAppSelector((state) => state);
+  const authStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDiapatch();
   const email = useRef<HTMLInputElement | null>(null);
   const password = useRef<HTMLInputElement | null>(null);

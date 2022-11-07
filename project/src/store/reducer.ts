@@ -2,15 +2,13 @@ import { createReducer } from '@reduxjs/toolkit';
 import { AuthStatus } from '../const';
 import { Comments } from '../types/comments';
 import { Film, Films } from '../types/film';
-import { UserData } from '../types/user-data';
-import { changeGenre, changeIsDataLoading, setFilms, setAuthStatus, setUserInfo, setFilm, setSimilarFilms, setComments, setCommentPostLoading, setError, setPromoFilm, setFavoriteFilms, } from './action';
+import { changeGenre, changeIsDataLoading, setFilms, setFilm, setSimilarFilms, setComments, setCommentPostLoading, setError, setPromoFilm, setFavoriteFilms, } from './action';
 
 type InitState = {
   selectedGenre: string;
   films: Films;
   authStatus: AuthStatus;
   isDataLoaded: boolean;
-  userInfo: UserData | null;
   film: Film | null;
   similarFilms: Films;
   comments: Comments;
@@ -25,7 +23,6 @@ const initState: InitState = {
   films: [],
   authStatus: AuthStatus.Unknown,
   isDataLoaded: false,
-  userInfo: null,
   film: null,
   similarFilms: [],
   comments: [],
@@ -43,14 +40,8 @@ const reducer = createReducer(initState, (builder) => {
     .addCase(setFilms, (state, action) => {
       state.films = action.payload;
     })
-    .addCase(setAuthStatus, (state, action) => {
-      state.authStatus = action.payload;
-    })
     .addCase(changeIsDataLoading, (state, action) => {
       state.isDataLoaded = action.payload;
-    })
-    .addCase(setUserInfo, (state, action) => {
-      state.userInfo = action.payload;
     })
     .addCase(setFilm, (state, action) => {
       state.film = action.payload;

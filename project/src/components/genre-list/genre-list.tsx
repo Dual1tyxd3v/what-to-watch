@@ -8,7 +8,7 @@ type GenreListProps = {
 }
 
 function GenreList({genres}: GenreListProps): JSX.Element {
-  const {selectedGenre} = useAppSelector((state) => state);
+  const {selectedGenre} = useAppSelector((state) => state.All);
   const dispatch = useAppDiapatch();
 
   function clickHandler(evt: MouseEvent) {

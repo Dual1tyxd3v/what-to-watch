@@ -9,11 +9,13 @@ import { AuthStatus, MAX_LIKES_FILMS } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { fetchCommentsAction, fetchFilmAction, fetchSimilarFilmsAction } from '../../services/api-actions';
 import { setFilm } from '../../store/action';
+import { getAuthStatus } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function FilmScreen(): JSX.Element {
-  const {film, isDataLoaded, similarFilms, comments, authStatus, favoriteFilms} = useAppSelector((state) => state);
+  const {film, isDataLoaded, similarFilms, comments, favoriteFilms} = useAppSelector((state) => state.All);
+  const authStatus = useAppSelector(getAuthStatus);
   const dispatch = useAppDiapatch();
 
   const params = useParams();

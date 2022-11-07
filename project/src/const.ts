@@ -46,3 +46,9 @@ export const SHOW_ERROR_TIMEOUT = 3000;
 
 export const MIN_COMMENT_LENGTH = 50;
 export const MAX_COMMENT_LENGTH = 400;
+
+export enum NameSpace {
+  User = 'USER',
+  Data = 'DATA',
+  App = 'APP'
+}

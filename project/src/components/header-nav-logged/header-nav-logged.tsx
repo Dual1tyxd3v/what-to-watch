@@ -3,9 +3,10 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../services/api-actions';
+import { getUserInfo } from '../../store/user-process/selectors';
 
 function HeaderNavLogged(): JSX.Element {
-  const {userInfo} = useAppSelector((state) => state);
+  const userInfo = useAppSelector(getUserInfo);
   const dispatch = useAppDiapatch();
   const navigate = useNavigate();
 

@@ -3,7 +3,7 @@ import { useAppSelector } from '../../hooks';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function PlayerScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state);
+  const {films} = useAppSelector((state) => state.All);
   const params = useParams();
   const paramsId = Number(params.id);
   const film = films.find((filmItem) => filmItem.id === paramsId);
