@@ -28,6 +28,16 @@ export function formatRunTime(time: number): string {
   return `${hours}h ${minutes}m`;
 }
 
+export function formatRunTimeToPlayer(time: number): string {
+  const roundedTime = Math.round(time);
+  const hours = Math.floor(roundedTime / 3600);
+  const minutes = Math.floor((roundedTime - hours * 3600) / 60);
+  const seconds = roundedTime - hours * 3600 - minutes * 60;
+  const formatedMinutes = minutes.toString().length > 1 ? minutes : minutes.toString().padStart(2, '0');
+  const formatedSeconds = seconds.toString().length > 1 ? seconds : seconds.toString().padStart(2, '0');
+  return `${hours}:${formatedMinutes}:${formatedSeconds}`;
+}
+
 export function formatDateForReview(date: string): string {
   const dateItem = new Date(date);
   const month = Months[dateItem.getMonth()];
