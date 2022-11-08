@@ -4,12 +4,14 @@ import Logo from '../../components/logo/logo';
 import ReviewForm from '../../components/review-form/review-form';
 import { AppRoute, AuthStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
+import { getFilms } from '../../store/data-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function AddReviewScreen(): JSX.Element {
-  const {films} = useAppSelector((state) => state.All);
+  const films = useAppSelector(getFilms);
   const authStatus = useAppSelector(getAuthStatus);
+
   const params = useParams();
   const currentLocation = useLocation();
 

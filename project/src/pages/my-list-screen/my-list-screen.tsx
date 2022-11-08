@@ -5,12 +5,14 @@ import Logo from '../../components/logo/logo';
 import { useAppSelector } from '../../hooks';
 import { fetchFavoriteFilmsAction } from '../../services/api-actions';
 import { store } from '../../store';
+import { getFavoriteFilms, getIsDataLoaded } from '../../store/data-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 
 store.dispatch(fetchFavoriteFilmsAction());
 
 function MyListScreen(): JSX.Element {
-  const {favoriteFilms, isDataLoaded} = useAppSelector((state) => state.All);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
 
   if (isDataLoaded) {
     return <LoadingScreen />;

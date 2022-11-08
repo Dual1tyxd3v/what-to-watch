@@ -3,11 +3,12 @@ import { useParams } from 'react-router-dom';
 import { MAX_COMMENT_LENGTH, MIN_COMMENT_LENGTH, ratingValues } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { postCommentAction } from '../../services/api-actions';
+import { getIsPostLoading } from '../../store/data-process/selectors';
 import Star from '../star/star';
 
 function ReviewForm(): JSX.Element {
   const [formData, setFormData] = useState({rate: 0, comment: ''});
-  const {isPostLoading} = useAppSelector((state) => state.All);
+  const isPostLoading = useAppSelector(getIsPostLoading);
   const dispatch = useAppDiapatch();
   const params = useParams();
   const paramsId = params.id;

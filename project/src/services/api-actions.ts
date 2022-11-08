@@ -3,7 +3,7 @@ import { UserData } from '../types/user-data';
 import { AppDispatch, State } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { APIRoute, SHOW_ERROR_TIMEOUT } from '../const';
-import { changeIsDataLoading, redirectToRoute, setCommentPostLoading, setComments, setFilm, setFilms, setPromoFilm, setSimilarFilms } from '../store/action';
+import { redirectToRoute } from '../store/action';
 import { AuthData } from '../types/auth-data';
 import { CommentData } from '../types/comment-data';
 import { Comments } from '../types/comments';
@@ -21,61 +21,53 @@ export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   }
 );
 
-export const fetchFilmsAction = createAsyncThunk<void, undefined, {
+export const fetchFilmsAction = createAsyncThunk<Films, undefined, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
   'DATA/fetchFilms',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(changeIsDataLoading(true));
     const {data} = await api.get<Films>(APIRoute.Films);
-    dispatch(setFilms(data));
-    dispatch(changeIsDataLoading(false));
+    return data;
   },
 );
 
-export const fetchFilmAction = createAsyncThunk<void, string, {
+export const fetchFilmAction = createAsyncThunk<Film, string, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
   'DATA/fetchFilm',
   async (id, {dispatch, extra: api}) => {
-    dispatch(changeIsDataLoading(true));
     const {data} = await api.get<Film>(`${APIRoute.Films}/${id}`);
-    dispatch(setFilm(data));
-    dispatch(changeIsDataLoading(false));
+    return data;
   },
 );
 
-export const fetchSimilarFilmsAction = createAsyncThunk<void, string, {
+export const fetchSimilarFilmsAction = createAsyncThunk<Films, string, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
   'DATA/fetchSimilarFilms',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Films>(`${APIRoute.Films}/${id}/similar`);
-    dispatch(setSimilarFilms(data));
+    return data;
   },
 );
 
-export const fetchFavoriteFilmsAction = createAsyncThunk<void, undefined, {
+export const fetchFavoriteFilmsAction = createAsyncThunk<Films, undefined, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
-  'DATA/fetchSimilarFilms',
+  'DATA/fetchFavoriteFilms',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(changeIsDataLoading(true));
     const {data} = await api.get<Films>(APIRoute.Favorites);
-    dispatch(setSimilarFilms(data));
-    dispatch(changeIsDataLoading(false));
+    return data;
   },
 );
 
-export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
+export const fetchPromoFilmAction = createAsyncThunk<Film, undefined, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
-  'DATA/fetchSimilarFilms',
+  'DATA/fetchPromoFilm',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(changeIsDataLoading(true));
     const {data} = await api.get<Film>(APIRoute.Promo);
-    dispatch(setPromoFilm(data));
-    dispatch(changeIsDataLoading(false));
+    return data;
   },
 );
 
@@ -89,31 +81,24 @@ export const fetchPromoFilmAction = createAsyncThunk<void, undefined, {
   },
 ); */
 
-export const fetchCommentsAction = createAsyncThunk<void, string, {
+export const fetchCommentsAction = createAsyncThunk<Comments, string, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
   'DATA/fetchComments',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<Comments>(`${APIRoute.Comments}/${id}`);
-    dispatch(setComments(data));
+    return data;
   },
 );
 
-export const postCommentAction = createAsyncThunk<void, CommentData, {
+export const postCommentAction = createAsyncThunk<Comments, CommentData, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
   'DATA/postComment',
   async ({comment, rating, id}, {dispatch, extra: api}) => {
-    try {
-      dispatch(setCommentPostLoading(true));
-      const {data} = await api.post<Comments>(`${APIRoute.Comments}/${id}`, {comment, rating});
-      dispatch(setComments(data));
-      dispatch(setCommentPostLoading(false));
-      dispatch(redirectToRoute(`films/${id}`));
-    }
-    catch {
-      dispatch(setCommentPostLoading(false));
-    }
+    const {data} = await api.post<Comments>(`${APIRoute.Comments}/${id}`, {comment, rating});
+    dispatch(redirectToRoute(`films/${id}`));
+    return data;
   }
 );
 

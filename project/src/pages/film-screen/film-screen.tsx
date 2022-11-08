@@ -8,14 +8,20 @@ import Tabs from '../../components/tabs/tabs';
 import { AuthStatus, MAX_LIKES_FILMS } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { fetchCommentsAction, fetchFilmAction, fetchSimilarFilmsAction } from '../../services/api-actions';
-import { setFilm } from '../../store/action';
+import { setFilm } from '../../store/data-process/data-process';
+import { getComments, getFavoriteFilms, getFilm, getIsDataLoaded, getSimilarFilms } from '../../store/data-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
 
 function FilmScreen(): JSX.Element {
-  const {film, isDataLoaded, similarFilms, comments, favoriteFilms} = useAppSelector((state) => state.All);
+  const film = useAppSelector(getFilm);
+  const isDataLoaded = useAppSelector(getIsDataLoaded);
+  const similarFilms = useAppSelector(getSimilarFilms);
+  const comments = useAppSelector(getComments);
+  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const authStatus = useAppSelector(getAuthStatus);
+
   const dispatch = useAppDiapatch();
 
   const params = useParams();
