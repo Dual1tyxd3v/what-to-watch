@@ -41,8 +41,6 @@ function MainScreen(): JSX.Element {
 
   const {name, genre, released, backgroundImage, posterImage} = promoFilm;
 
-  const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
-
   const filteredFilms = selectedGenre === 'All Genres'
     ? films
     : films.filter((film) => selectedGenre === film.genre);
@@ -103,7 +101,7 @@ function MainScreen(): JSX.Element {
         <section className="catalog">
           <h2 className="catalog__title visually-hidden">Catalog</h2>
 
-          <GenreList genres={genres} />
+          <GenreList />
 
           <FilmList films={filteredFilms} showedFilmsCounter={displayFilmsCounter}/>
           {

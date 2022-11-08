@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import { AuthStatus } from '../../const';
 import { useAppSelector } from '../../hooks';
 import { getAuthStatus } from '../../store/user-process/selectors';
@@ -11,4 +12,4 @@ function HeaderNav(): JSX.Element {
   );
 }
 
-export default HeaderNav;
+export default memo(HeaderNav);

@@ -3,14 +3,14 @@ import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { MouseEvent } from 'react';
 import { getGenre } from '../../store/app-process/selectors';
 import { changeGenre } from '../../store/app-process/app-process';
+import { getFilms } from '../../store/data-process/selectors';
 
-type GenreListProps = {
-  genres: string[];
-}
-
-function GenreList({genres}: GenreListProps): JSX.Element {
+function GenreList(): JSX.Element {
   const selectedGenre = useAppSelector(getGenre);
+  const films = useAppSelector(getFilms);
   const dispatch = useAppDiapatch();
+
+  const genres = ['All Genres', ...new Set(films.map((film) => film.genre))];
 
   function clickHandler(evt: MouseEvent) {
     evt.preventDefault();
