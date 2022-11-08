@@ -1,19 +1,20 @@
 import { Link } from 'react-router-dom';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { MouseEvent } from 'react';
-import { changeGenre } from '../../store/action';
+import { getGenre } from '../../store/app-process/selectors';
+import { changeGenre } from '../../store/app-process/app-process';
 
 type GenreListProps = {
   genres: string[];
 }
 
 function GenreList({genres}: GenreListProps): JSX.Element {
-  const {selectedGenre} = useAppSelector((state) => state.All);
+  const selectedGenre = useAppSelector(getGenre);
   const dispatch = useAppDiapatch();
 
   function clickHandler(evt: MouseEvent) {
     evt.preventDefault();
-    evt.currentTarget.textContent && dispatch(changeGenre({genre: evt.currentTarget.textContent}));
+    evt.currentTarget.textContent && dispatch(changeGenre(evt.currentTarget.textContent));
   }
   return (
     <ul className="catalog__genres-list">

@@ -9,3 +9,8 @@ export type UserProcess = {
   authStatus: AuthStatus;
   userInfo: UserData | null;
 }
+
+export type AppProcess = {
+  error: string | null;
+  selectedGenre: string;
+}

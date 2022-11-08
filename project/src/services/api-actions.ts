@@ -3,12 +3,13 @@ import { UserData } from '../types/user-data';
 import { AppDispatch, State } from '../types/store';
 import { AxiosInstance } from 'axios';
 import { APIRoute, SHOW_ERROR_TIMEOUT } from '../const';
-import { changeIsDataLoading, redirectToRoute, setCommentPostLoading, setComments, setError, setFilm, setFilms, setPromoFilm, setSimilarFilms } from '../store/action';
+import { changeIsDataLoading, redirectToRoute, setCommentPostLoading, setComments, setFilm, setFilms, setPromoFilm, setSimilarFilms } from '../store/action';
 import { AuthData } from '../types/auth-data';
 import { CommentData } from '../types/comment-data';
 import { Comments } from '../types/comments';
 import { Film, Films } from '../types/film';
 import { dropToken, saveToken } from './token';
+import { setError } from '../store/app-process/app-process';
 
 export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
