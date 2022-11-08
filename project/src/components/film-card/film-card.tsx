@@ -10,11 +10,12 @@ type FilmCardProps = {
 }
 
 function FilmCard({film, onActiveFilm, isPlaying}: FilmCardProps): JSX.Element {
+  const {previewImage, name, id, previewVideoLink} = film;
+  const navigate = useNavigate();
+
   function onMouseEventHandler(evt: MouseEvent<HTMLElement>): void {
     onActiveFilm(id, evt.type);
   }
-  const {previewImage, name, id, previewVideoLink} = film;
-  const navigate = useNavigate();
 
   function clickHandler(): void {
     navigate(`/films/${id}`);
