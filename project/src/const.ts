@@ -52,3 +52,6 @@ export enum NameSpace {
   Data = 'DATA',
   App = 'APP'
 }
+
+export const passwordRegular = /\d\D|\D\d/g;
+export const emailRegular = /\w{3}@\w{2}.\D{1}/ig;
