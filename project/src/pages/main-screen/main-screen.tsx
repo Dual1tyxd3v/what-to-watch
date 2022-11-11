@@ -1,15 +1,18 @@
 import { useCallback, useEffect, useLayoutEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import ButtonMyList from '../../components/button-my-list/button-my-list';
+import ButtonPlay from '../../components/button-play/button-play';
 import ButtonShowMore from '../../components/button-show-more/button-show-more';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import GenreList from '../../components/genre-list/genre-list';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
-import { AuthStatus, DISPLAY_FILMS_STEP } from '../../const';
+import { AppRoute, AuthStatus, DISPLAY_FILMS_STEP } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { fetchPromoFilmAction } from '../../services/api-actions';
 import { getGenre } from '../../store/app-process/selectors';
-import { getFavoriteFilms, getFilms, getIsDataLoaded, getPromoFilm } from '../../store/data-process/selectors';
+import { getFilms, getIsDataLoaded, getPromoFilm } from '../../store/data-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 
@@ -17,15 +20,19 @@ function MainScreen(): JSX.Element {
   const films = useAppSelector(getFilms);
   const isDataLoaded = useAppSelector(getIsDataLoaded);
   const promoFilm = useAppSelector(getPromoFilm);
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const selectedGenre = useAppSelector(getGenre);
   const authStatus = useAppSelector(getAuthStatus);
 
   const [displayFilmsCounter, setDisplayFilmsCounter] = useState(DISPLAY_FILMS_STEP);
   const dispatch = useAppDiapatch();
+  const navigate = useNavigate();
   const buttonClickHandler = useCallback(() => {
     setDisplayFilmsCounter((prev) => prev + DISPLAY_FILMS_STEP);
   }, []);
+
+  function buttonPlayHandler() {
+    promoFilm && navigate(`${AppRoute.Player}/${promoFilm.id}`);
+  }
 
   useLayoutEffect(() => {
     dispatch(fetchPromoFilmAction());
@@ -73,22 +80,13 @@ function MainScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
+                <button className="btn btn--play film-card__button" type="button" onClick={buttonPlayHandler}>
+                  <ButtonPlay />
                 </button>
                 {
                   authStatus === AuthStatus.Auth
                     ?
-                    <button className="btn btn--list film-card__button" type="button">
-                      <svg viewBox="0 0 19 20" width="19" height="20">
-                        <use xlinkHref="#add"></use>
-                      </svg>
-                      <span>My list</span>
-                      <span className="film-card__count">{favoriteFilms.length}</span>
-                    </button>
+                    <ButtonMyList film={promoFilm} />
                     : null
                 }
               </div>

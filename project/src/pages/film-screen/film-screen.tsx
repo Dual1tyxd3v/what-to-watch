@@ -1,15 +1,17 @@
 import { useLayoutEffect } from 'react';
-import { Link, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
+import ButtonMyList from '../../components/button-my-list/button-my-list';
+import ButtonPlay from '../../components/button-play/button-play';
 import FilmList from '../../components/film-list/film-list';
 import Footer from '../../components/footer/footer';
 import HeaderNav from '../../components/header-nav/header-nav';
 import Logo from '../../components/logo/logo';
 import Tabs from '../../components/tabs/tabs';
-import { AuthStatus, MAX_LIKES_FILMS } from '../../const';
+import { AppRoute, AuthStatus, MAX_LIKES_FILMS } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { fetchCommentsAction, fetchFilmAction, fetchSimilarFilmsAction } from '../../services/api-actions';
 import { setFilm } from '../../store/data-process/data-process';
-import { getComments, getFavoriteFilms, getFilm, getIsDataLoaded, getSimilarFilms } from '../../store/data-process/selectors';
+import { getComments, getFilm, getIsDataLoaded, getSimilarFilms } from '../../store/data-process/selectors';
 import { getAuthStatus } from '../../store/user-process/selectors';
 import LoadingScreen from '../loading-screen/loading-screen';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
@@ -19,10 +21,10 @@ function FilmScreen(): JSX.Element {
   const isDataLoaded = useAppSelector(getIsDataLoaded);
   const similarFilms = useAppSelector(getSimilarFilms);
   const comments = useAppSelector(getComments);
-  const favoriteFilms = useAppSelector(getFavoriteFilms);
   const authStatus = useAppSelector(getAuthStatus);
 
   const dispatch = useAppDiapatch();
+  const navigate = useNavigate();
 
   const params = useParams();
   const paramsId = params.id;
@@ -44,6 +46,11 @@ function FilmScreen(): JSX.Element {
   if (!film) {
     return <NotFoundScreen />;
   }
+
+  function buttonPlayHandler() {
+    film && navigate(`${AppRoute.Player}/${film.id}`);
+  }
+
   const similarFilmsToView = similarFilms.filter((filmItem) => filmItem.id !== film.id);
   const {backgroundImage, name, genre, released, posterImage} = film;
   return (
@@ -71,23 +78,14 @@ function FilmScreen(): JSX.Element {
               </p>
 
               <div className="film-card__buttons">
-                <button className="btn btn--play film-card__button" type="button">
-                  <svg viewBox="0 0 19 19" width="19" height="19">
-                    <use xlinkHref="#play-s"></use>
-                  </svg>
-                  <span>Play</span>
+                <button className="btn btn--play film-card__button" type="button" onClick={buttonPlayHandler}>
+                  <ButtonPlay />
                 </button>
                 {
                   authStatus === AuthStatus.Auth
                     ?
                     <>
-                      <button className="btn btn--list film-card__button" type="button">
-                        <svg viewBox="0 0 19 20" width="19" height="20">
-                          <use xlinkHref="#add"></use>
-                        </svg>
-                        <span>My list</span>
-                        <span className="film-card__count">{favoriteFilms.length}</span>
-                      </button>
+                      <ButtonMyList film={film} />
                       <Link to='review' className="btn film-card__button">Add review</Link>
                     </>
                     : null

@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { AuthStatus, NameSpace } from '../../const';
-import { fetchCommentsAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchSimilarFilmsAction, postCommentAction } from '../../services/api-actions';
+import { changeFavoriteStatusAction, fetchCommentsAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchSimilarFilmsAction, postCommentAction } from '../../services/api-actions';
 import { Film } from '../../types/film';
 import { DataProcess } from '../../types/store';
 
@@ -12,6 +12,7 @@ const initialState: DataProcess = {
   similarFilms: [],
   comments: [],
   isPostLoading: false,
+  isFavoritesLoading: false,
   promoFilm: null,
   favoriteFilms: []
 };
@@ -22,7 +23,10 @@ export const dataProcess = createSlice({
   reducers: {
     setFilm: (state, action: {type: string; payload: null | Film}) => {
       state.film = action.payload;
-    }
+    },
+    clearFavoritesFilms: (state) => {
+      state.favoriteFilms = [];
+    },
   },
   extraReducers(builder) {
     builder
@@ -50,14 +54,14 @@ export const dataProcess = createSlice({
         state.similarFilms = action.payload;
       })
       .addCase(fetchFavoriteFilmsAction.fulfilled, (state, action) => {
-        state.isDataLoaded = false;
+        state.isFavoritesLoading = false;
         state.favoriteFilms = action.payload;
       })
       .addCase(fetchFavoriteFilmsAction.rejected, (state) => {
-        state.isDataLoaded = false;
+        state.isFavoritesLoading = false;
       })
       .addCase(fetchFavoriteFilmsAction.pending, (state) => {
-        state.isDataLoaded = true;
+        state.isFavoritesLoading = true;
       })
       .addCase(fetchPromoFilmAction.fulfilled, (state, action) => {
         state.isDataLoaded = false;
@@ -81,8 +85,17 @@ export const dataProcess = createSlice({
       })
       .addCase(postCommentAction.pending, (state) => {
         state.isPostLoading = true;
+      })
+      .addCase(changeFavoriteStatusAction.fulfilled, (state, action) => {
+        if (state.promoFilm?.id === action.payload.id) {
+          state.promoFilm = action.payload;
+        }
+
+        if(state.film?.id === action.payload.id) {
+          state.film = action.payload;
+        }
       });
   }
 });
 
-export const {setFilm} = dataProcess.actions;
+export const {setFilm, clearFavoritesFilms} = dataProcess.actions;

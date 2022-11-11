@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { ReactEventHandler, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { DELAY_TO_PREVIEW } from '../../const';
 import PlayerControls from '../../pages/player-screen/player-controls';
-import { formatRunTimeToPlayer } from '../../utils';
 
 type VideoPlayerProps = {
   src: string;
@@ -15,14 +14,25 @@ type VideoPlayerProps = {
 function VideoPlayer({src, posterSrc, isPlaying, muted, fullscreen, name}: VideoPlayerProps): JSX.Element {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [, setIsLoaded] = useState(false);
+  const [progress, setProgress] = useState(0);
+  const [trigger, setTrigger] = useState(false);
 
   const buttonHandler = useCallback((playing: boolean) => {
-    if(videoRef.current) {
-      playing
-        ? videoRef.current && videoRef.current.pause()
-        : videoRef.current && videoRef.current.play();
+    if(!videoRef.current) {
+      return;
+    }
+    if (playing) {
+      videoRef.current.pause();
+      setTrigger(false);
+    } else {
+      videoRef.current.play();
     }
   }, []);
+
+  function progressHandler(evt: SyntheticEvent<HTMLVideoElement, Event>) {
+    setProgress(evt.currentTarget.currentTime / evt.currentTarget.duration * 100);
+    console.log('p' + progress);
+  }
 
   useEffect(() => {
     if (videoRef.current === null) {
@@ -35,22 +45,20 @@ function VideoPlayer({src, posterSrc, isPlaying, muted, fullscreen, name}: Video
         videoRef.current?.play();
       }
     }, DELAY_TO_PREVIEW);
+
     videoRef.current.src = src;
     return () => clearTimeout(timer);
   }, [fullscreen, isPlaying, src]);
 
-  const formatedDuration = videoRef.current
-    ? formatRunTimeToPlayer(videoRef.current.currentTime)
-    : '0';
   return (
     <>
-      <video ref={videoRef} src={src} poster={posterSrc} muted={muted} className={fullscreen ? 'player__video' : ''} width='285' height='175'>
+      <video ref={videoRef} src={src} poster={posterSrc} muted={muted} className={fullscreen ? 'player__video' : ''} width='285' height='175' onProgress={progressHandler} >
       </video>
-      {
+      {/* {
         fullscreen
-          ? <PlayerControls name={name ? name : ''} duration={formatedDuration} buttonHandler={buttonHandler}/>
+          ? <PlayerControls name={name ? name : ''} duration={videoRef.current?.duration || 0} buttonHandler={buttonHandler} trigger={trigger} progress={progress}/>
           : null
-      }
+      } */}
     </>
   );
 }

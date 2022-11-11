@@ -29,13 +29,13 @@ export function formatRunTime(time: number): string {
 }
 
 export function formatRunTimeToPlayer(time: number): string {
-  const roundedTime = Math.round(time);
+  const roundedTime = Math.floor(time);
   const hours = Math.floor(roundedTime / 3600);
   const minutes = Math.floor((roundedTime - hours * 3600) / 60);
   const seconds = roundedTime - hours * 3600 - minutes * 60;
   const formatedMinutes = minutes.toString().length > 1 ? minutes : minutes.toString().padStart(2, '0');
   const formatedSeconds = seconds.toString().length > 1 ? seconds : seconds.toString().padStart(2, '0');
-  return `${hours}:${formatedMinutes}:${formatedSeconds}`;
+  return `${hours > 0 ? hours : ''}:${formatedMinutes}:${formatedSeconds}`.replace(new RegExp('^:'), '');
 }
 
 export function formatDateForReview(date: string): string {

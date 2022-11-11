@@ -1,4 +1,4 @@
 export type ChangeFavoriteData = {
-  filmId: string;
-  status: string;
+  filmId: number;
+  status: number;
 };

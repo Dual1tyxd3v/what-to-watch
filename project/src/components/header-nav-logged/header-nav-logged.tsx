@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDiapatch, useAppSelector } from '../../hooks';
 import { logoutAction } from '../../services/api-actions';
+import { clearFavoritesFilms } from '../../store/data-process/data-process';
 import { getUserInfo } from '../../store/user-process/selectors';
 
 function HeaderNavLogged(): JSX.Element {
@@ -13,6 +14,7 @@ function HeaderNavLogged(): JSX.Element {
   function clickHandler(evt: MouseEvent) {
     evt.preventDefault();
     dispatch(logoutAction());
+    dispatch(clearFavoritesFilms());
   }
 
   function avatarClickHandler() {

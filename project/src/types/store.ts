@@ -25,6 +25,7 @@ export type DataProcess = {
   similarFilms: Films;
   comments: Comments;
   isPostLoading: boolean;
+  isFavoritesLoading: boolean;
   promoFilm: Film | null;
   favoriteFilms: Films;
 }

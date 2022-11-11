@@ -9,3 +9,4 @@ export const getComments = (state: State) => state[NameSpace.Data].comments;
 export const getFavoriteFilms = (state: State) => state[NameSpace.Data].favoriteFilms;
 export const getPromoFilm = (state: State) => state[NameSpace.Data].promoFilm;
 export const getIsPostLoading = (state: State) => state[NameSpace.Data].isPostLoading;
+export const getIsFavoriteLoading = (state: State) => state[NameSpace.Data].isFavoritesLoading;

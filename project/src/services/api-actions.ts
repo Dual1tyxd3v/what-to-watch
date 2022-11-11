@@ -10,6 +10,7 @@ import { Comments } from '../types/comments';
 import { Film, Films } from '../types/film';
 import { dropToken, saveToken } from './token';
 import { setError } from '../store/app-process/app-process';
+import { ChangeFavoriteData } from '../types/change-favorite-data';
 
 export const checkAuthAction = createAsyncThunk<UserData, undefined, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
@@ -71,15 +72,16 @@ export const fetchPromoFilmAction = createAsyncThunk<Film, undefined, {
   },
 );
 
-/* export const changeFavoriteStatusAction = createAsyncThunk<void, ChangeFavoriteData, {
+export const changeFavoriteStatusAction = createAsyncThunk<Film, ChangeFavoriteData, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
 }>(
   'DATA/changeFavoriteStatus',
   async ({filmId, status}, {dispatch, extra: api}) => {
-    const {data} = await api.get<Film>(`${APIRoute.Favorites}/${filmId}/${status}`);
+    const {data} = await api.post<Film>(`${APIRoute.Favorites}/${filmId}/${status}`);
     dispatch(fetchFavoriteFilmsAction());
+    return data;
   },
-); */
+);
 
 export const fetchCommentsAction = createAsyncThunk<Comments, string, {
   dispatch: AppDispatch; state: State; extra: AxiosInstance;
