@@ -29,7 +29,7 @@ export function formatRunTime(time: number): string {
 }
 
 export function formatRunTimeToPlayer(time: number): string {
-  const roundedTime = Math.floor(time);
+  const roundedTime = Math.round(time);
   const hours = Math.floor(roundedTime / 3600);
   const minutes = Math.floor((roundedTime - hours * 3600) / 60);
   const seconds = roundedTime - hours * 3600 - minutes * 60;

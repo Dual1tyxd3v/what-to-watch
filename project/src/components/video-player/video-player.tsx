@@ -1,6 +1,6 @@
-import { ReactEventHandler, SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { SyntheticEvent, useCallback, useEffect, useRef, useState } from 'react';
 import { DELAY_TO_PREVIEW } from '../../const';
-import PlayerControls from '../../pages/player-screen/player-controls';
+import PlayerControls from '../player-controls/player-controls';
 
 type VideoPlayerProps = {
   src: string;
@@ -15,7 +15,7 @@ function VideoPlayer({src, posterSrc, isPlaying, muted, fullscreen, name}: Video
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const [, setIsLoaded] = useState(false);
   const [progress, setProgress] = useState(0);
-  const [trigger, setTrigger] = useState(false);
+  const [duration, setDuration] = useState(0);
 
   const buttonHandler = useCallback((playing: boolean) => {
     if(!videoRef.current) {
@@ -23,21 +23,28 @@ function VideoPlayer({src, posterSrc, isPlaying, muted, fullscreen, name}: Video
     }
     if (playing) {
       videoRef.current.pause();
-      setTrigger(false);
     } else {
       videoRef.current.play();
     }
   }, []);
 
+  const progressBarHandler = useCallback((timeMark: number) => {
+    if (videoRef.current) {
+      videoRef.current.currentTime = timeMark;
+    }
+  }, []);
+
   function progressHandler(evt: SyntheticEvent<HTMLVideoElement, Event>) {
-    setProgress(evt.currentTarget.currentTime / evt.currentTarget.duration * 100);
-    console.log('p' + progress);
+    if (fullscreen) {
+      setProgress(evt.currentTarget.currentTime);
+    }
   }
 
   useEffect(() => {
     if (videoRef.current === null) {
       return;
     }
+
     videoRef.current.addEventListener('loadeddata', () => setIsLoaded(true));
 
     const timer = setTimeout(() => {
@@ -48,17 +55,20 @@ function VideoPlayer({src, posterSrc, isPlaying, muted, fullscreen, name}: Video
 
     videoRef.current.src = src;
     return () => clearTimeout(timer);
-  }, [fullscreen, isPlaying, src]);
+  }, [duration, fullscreen, isPlaying, src]);
+  if (duration === 0 && videoRef.current) {
+    setDuration(videoRef.current.duration);
+  }
 
   return (
     <>
-      <video ref={videoRef} src={src} poster={posterSrc} muted={muted} className={fullscreen ? 'player__video' : ''} width='285' height='175' onProgress={progressHandler} >
+      <video ref={videoRef} src={src} poster={posterSrc} muted={!fullscreen} className={fullscreen ? 'player__video' : ''} width='285' height='175' onTimeUpdate={progressHandler}>
       </video>
-      {/* {
+      {
         fullscreen
-          ? <PlayerControls name={name ? name : ''} duration={videoRef.current?.duration || 0} buttonHandler={buttonHandler} trigger={trigger} progress={progress}/>
+          ? <PlayerControls progressBarHandler={progressBarHandler} name={name ? name : ''} duration={duration} buttonHandler={buttonHandler} progress={progress} />
           : null
-      } */}
+      }
     </>
   );
 }
