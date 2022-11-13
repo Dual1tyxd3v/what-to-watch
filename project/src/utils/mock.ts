@@ -20,7 +20,7 @@ export const makeFakeFilm = (): Film => ({
   director: fullName,
   starring: new Array(datatype.number({min: 1, max: 6})).fill(fullName) as string[],
   runTime: datatype.number({min: 15, max: 240}),
-  genre: lorem.word(),
+  genre: lorem.word(8),
   released: datatype.number({min: 1950, max: 2022}),
   isFavorite: datatype.boolean()
 });
@@ -36,7 +36,7 @@ export const makeFakeUser = (): UserData => ({
 });
 
 export const makeFakeComment = (): Comment => ({
-  comment: lorem.text(),
+  comment: lorem.words(),
   date: date.between(2000, new Date()).toString(),
   id: datatype.number(),
   rating: datatype.number(),

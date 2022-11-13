@@ -26,7 +26,7 @@ function FilmCard({film, onActiveFilm, isPlaying}: FilmCardProps): JSX.Element {
       onMouseEnter={onMouseEventHandler}
       onMouseLeave={onMouseEventHandler}
     >
-      <div className="small-film-card__image" onClick={clickHandler}>
+      <div className="small-film-card__image" onClick={clickHandler} data-testid="videoContainer">
         <VideoPlayer isPlaying={isPlaying} src={previewVideoLink} posterSrc={previewImage} muted />
       </div>
       <h3 className="small-film-card__title">
