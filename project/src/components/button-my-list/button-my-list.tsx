@@ -28,7 +28,7 @@ function ButtonMyList({film:{id, isFavorite}}: ButtonMyListProps): JSX.Element {
           </svg>
       }
       <span>My list</span>
-      <span className="film-card__count">{favoriteFilms.length}</span>
+      <span className="film-card__count" data-testId="favoriteCounts">{favoriteFilms.length}</span>
     </button>
   );
 }

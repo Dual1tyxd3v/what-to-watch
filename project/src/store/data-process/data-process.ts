@@ -1,12 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { AuthStatus, NameSpace } from '../../const';
+import { NameSpace } from '../../const';
 import { changeFavoriteStatusAction, fetchCommentsAction, fetchFavoriteFilmsAction, fetchFilmAction, fetchFilmsAction, fetchPromoFilmAction, fetchSimilarFilmsAction, postCommentAction } from '../../services/api-actions';
 import { Film } from '../../types/film';
 import { DataProcess } from '../../types/store';
 
 const initialState: DataProcess = {
   films: [],
-  authStatus: AuthStatus.Unknown,
   isDataLoaded: false,
   film: null,
   similarFilms: [],

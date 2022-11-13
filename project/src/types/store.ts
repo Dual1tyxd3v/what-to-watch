@@ -19,7 +19,6 @@ export type AppProcess = {
 
 export type DataProcess = {
   films: Films;
-  authStatus: AuthStatus;
   isDataLoaded: boolean;
   film: Film | null;
   similarFilms: Films;
