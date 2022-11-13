@@ -1,4 +1,5 @@
-import { commerce, datatype, image, internet, lorem, name } from 'faker';
+import { commerce, datatype, date, image, internet, lorem, name } from 'faker';
+import { Comment, Comments } from '../types/comments';
 import { Film, Films } from '../types/film';
 import { UserData } from '../types/user-data';
 
@@ -33,3 +34,16 @@ export const makeFakeUser = (): UserData => ({
   name: name.firstName(),
   token: lorem.word()
 });
+
+export const makeFakeComment = (): Comment => ({
+  comment: lorem.text(),
+  date: date.between(2000, new Date()).toString(),
+  id: datatype.number(),
+  rating: datatype.number(),
+  user: {
+    id: datatype.number(),
+    name: fullName
+  },
+});
+
+export const makeFakeComments = (): Comments => new Array(datatype.number({min: 1, max: 10})).fill(makeFakeComment()) as Comments;
