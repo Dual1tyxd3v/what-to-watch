@@ -19,16 +19,16 @@ function ButtonMyList({film:{id, isFavorite}}: ButtonMyListProps): JSX.Element {
       {
         isFavorite
           ?
-          <svg viewBox="0 0 18 14" width="18" height="14">
+          <svg viewBox="0 0 18 14" width="18" height="14" data-testid="inListSVG">
             <use xlinkHref="#in-list"></use>
           </svg>
           :
-          <svg viewBox="0 0 19 20" width="19" height="20">
+          <svg viewBox="0 0 19 20" width="19" height="20" data-testid="addSVG">
             <use xlinkHref="#add"></use>
           </svg>
       }
       <span>My list</span>
-      <span className="film-card__count" data-testId="favoriteCounts">{favoriteFilms.length}</span>
+      <span className="film-card__count" data-testid="favoriteCounts">{favoriteFilms.length}</span>
     </button>
   );
 }
